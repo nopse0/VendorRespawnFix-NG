@@ -1,0 +1,84 @@
+{
+    "version": 2,
+    "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 21,
+      "patch": 0
+    },
+    "configurePresets": [
+      {
+        "name": "vcpkg",
+        "hidden": true,
+        "cacheVariables": {
+          "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+          "VCPKG_TARGET_TRIPLET": "x64-windows",
+          "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake",
+          "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+        }
+      },
+      {
+        "name": "msvc",
+        "hidden": true,
+        "cacheVariables": {
+          "CMAKE_CXX_FLAGS": "/permissive- /Zc:preprocessor /EHsc $penv{CXXFLAGS}",
+          "CMAKE_C_COMPILER": "cl",
+          "CMAKE_CXX_COMPILER": "cl"
+        },
+        "vendor": {
+          "microsoft.com/VisualStudioSettings/CMake/1.0": {
+            "intelliSenseMode": "windows-msvc-x64",
+            "enableMicrosoftCodeAnalysis": true,
+            "enableClangTidyCodeAnalysis": true
+          }
+        }
+      },
+      {
+        "name": "Debug-MSVC",
+        "inherits": [
+          "vcpkg",
+          "msvc"
+        ],
+        "displayName": "Debug",
+        "description": "Debug build for testing.",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build/debug-msvc",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": {
+            "type": "STRING",
+            "value": "Debug"
+          }
+        }
+      },
+      {
+        "name": "Release-MSVC",
+        "inherits": [
+          "vcpkg",
+          "msvc"
+        ],
+        "displayName": "Release",
+        "description": "Optimized release build.",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build/release-msvc",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": {
+            "type": "STRING",
+            "value": "Release"
+          }
+        }
+      }
+    ],
+    "buildPresets": [
+      {
+        "name": "Release-MSVC",
+        "displayName": "Release (MSVC)",
+        "configurePreset": "Release-MSVC",
+        "description": "Optimized release build."
+      },
+      {
+        "name": "Debug-MSVC",
+        "displayName": "Debug (MSVC)",
+        "configurePreset": "Debug-MSVC",
+        "description": "Debug build for testing."
+      }
+    ]
+  }
