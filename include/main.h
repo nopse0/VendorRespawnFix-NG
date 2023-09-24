@@ -1,8 +1,5 @@
-﻿// VendorRespawnFix-NG.h: Includedatei für Include-Standardsystemdateien
-// oder projektspezifische Includedateien.
+﻿#pragma once
 
-#pragma once
-
-#include <iostream>
-
-// TODO: Verweisen Sie hier auf zusätzliche Header, die Ihr Programm erfordert.
+#include <detours/detours.h>
+#include <RE/Skyrim.h>
+#include <SKSE/SKSE.h>

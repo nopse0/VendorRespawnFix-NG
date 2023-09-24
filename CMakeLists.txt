@@ -16,6 +16,7 @@ set(headers
         include/main.h)
 		
 set(sources
+        src/config.cpp
         src/main.cpp)
 
 source_group(
@@ -26,6 +27,9 @@ source_group(
 
 
 find_package(CommonLibSSE CONFIG REQUIRED)
+find_package(ryml CONFIG REQUIRED)
+find_path(ARTICUNO_INCLUDE_DIRS "articuno/articuno.h")
+find_library(Detours_LIBRARIES NAMES detours.lib)
 
 add_commonlibsse_plugin(${PROJECT_NAME} SOURCES ${headers} ${sources})
 add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
@@ -43,6 +47,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
+        ryml::ryml
         ${Detours_LIBRARIES}
 )
 
