@@ -1,23 +1,20 @@
-﻿# CMakeList.txt: CMake-Projekt für "VendorRespawnFix-NG". Schließen Sie die Quelle ein, und definieren Sie
-# projektspezifische Logik hier.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
+message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 
-# Aktivieren Sie Hot Reload für MSVC-Compiler, sofern unterstützt.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
+project (
+		"VendorRespawnFix-NG"
+		VERSION 0.0.0
+        DESCRIPTION "VendorRespawnFix built with CommonLibSSE-NG."
+        LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)		
 
-project ("VendorRespawnFix-NG")
+set(headers
+        include/main.h)
+		
+set(sources
+        src/main.cpp
 
-# Fügen Sie der ausführbaren Datei dieses Projekts eine Quelle hinzu.
-add_executable (VendorRespawnFix-NG "VendorRespawnFix-NG.cpp" "VendorRespawnFix-NG.h")
+add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET VendorRespawnFix-NG PROPERTY CXX_STANDARD 20)
-endif()
-
-find_package(fmt CONFIG REQUIRED)
-
-# TODO: Fügen Sie bei Bedarf Tests hinzu, und installieren Sie Ziele.
