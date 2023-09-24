@@ -1,12 +1,12 @@
 ﻿// VendorRespawnFix-NG.cpp: Definiert den Einstiegspunkt für die Anwendung.
 //
 
-#include "VendorRespawnFix-NG.h"
+#include "main.h"
 
 using namespace std;
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	// cout << "Hello CMake." << endl;
 	return 0;
 }

@@ -1,8 +1,17 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
   "builtin-baseline": "78ba9711d30c64a6b40462c72f356c681e2255f3",
-  "dependencies": [
-    "cxxopts",
-    "fmt",
-    "range-v3"
+
+  "features": {
+    "plugin": {
+      "description": "Build the SKSE plugin.",
+      "dependencies": [
+        "commonlibsse-ng",
+        "skse"
+      ]
+    }
+  },
+  "default-features": [
+    "plugin"
   ]
 }
