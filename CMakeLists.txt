@@ -13,10 +13,12 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 include(GNUInstallDirs)
 
 set(headers
-        include/main.h)
+        include/main.h
+        include/vendor_respawn_manager.h)
 		
 set(sources
         src/config.cpp
+        src/vendor_respawn_manager.cpp
         src/main.cpp)
 
 source_group(

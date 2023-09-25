@@ -1,4 +1,5 @@
-﻿#include "config.h"
+﻿#include <vendor_respawn_manager.h>
+#include "config.h"
 #include "main.h"
 
 using namespace SKSE;
@@ -42,6 +43,33 @@ void InitializeLogging() {
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%l] [%t] [%s:%#] %v");
 }
 
+
+/**
+ * Initialize the SKSE cosave system for our plugin.
+ *
+ * <p>
+ * SKSE comes with a feature called a <em>cosave</em>, an additional save file kept alongside the original Skyrim
+ * save file. SKSE plugins can write their own data to this file, and load it again when the save game is loaded,
+ * allowing them to keep custom data along with a player's save. Each plugin must have a unique ID, which is four
+ * characters long (similar to the record names used by forms in ESP files). Note however this is little-endian, so
+ * technically the 'SMPL' here ends up as 'LPMS' in the save file, unless we use a byte order swap.
+ * </p>
+ *
+ * <p>
+ * There can only be one serialization callback for save, revert (called on new game and before a load), and load
+ * for the entire plugin.
+ * </p>
+*/
+void InitializeSerialization() {
+    log::trace("Initializing cosave serialization...");
+    auto* serde = GetSerializationInterface();
+    serde->SetUniqueID(vendor_fix::VendorRespawnManager::interfaceId);
+    serde->SetSaveCallback(vendor_fix::VendorRespawnManager::OnGameSaved);
+    serde->SetRevertCallback(vendor_fix::VendorRespawnManager::OnRevert);
+    serde->SetLoadCallback(vendor_fix::VendorRespawnManager::OnGameLoaded);
+    log::trace("Cosave serialization initialized.");
+}
+
 /**
  * This if the main callback for initializing your SKSE plugin, called just before Skyrim runs its main function.
  *
@@ -66,7 +94,7 @@ SKSEPluginLoad(const LoadInterface* skse) {
     }
     else
         log::info("{} disabled because no merges found.", plugin->GetName());*/
-    // InitializeSerialization();
+    InitializeSerialization();
     // InitializePapyrus();
 
     log::info("{} has finished loading.", plugin->GetName());
